@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+/* 
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
+/* body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, #080808, #000000); /* Gradient for crystal black */
+}
+
+.header {
+  background-image: linear-gradient(to bottom, #8bd663, #1b7772);
+  /* Other header styles */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust z-index as needed */
+}
+.footer{
+  background-image: linear-gradient(to bottom, #8bd663, #1b7772);
+}
+.text-slider {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.char {
+  animation: colorChange 5s infinite; /* Apply animation to each character */
+}
+
+@keyframes colorChange {
+  0% { color: red; } /* Start color */
+  20% { color: green; } /* Change color at 20% */
+  40% { color: blue; } /* Change color at 40% */
+  60% { color: purple; } /* Change color at 60% */
+  80% { color: orange; } /* Change color at 80% */
+  100% { color: cyan; } /* End color */
+}
+/* Define the animation */
+@keyframes centralDivAnimation {
+  0% { background-color: #ff0000; box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+  20% { background-color: #ff8000; box-shadow: 0 0 10px rgba(255, 128, 0, 0.5); }
+  40% { background-color: #ffff00; box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); }
+  60% { background-color: #00ff00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5); }
+  80% { background-color: #0000ff; box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); }
+  100% { background-color: #ff00ff; box-shadow: 0 0 10px rgba(255, 0, 255, 0.5); }
+}
+
+
+/* Apply the animation to the circles */
+.animate-color-change {
+  animation: centralDivAnimation 5s infinite alternate;
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -16,17 +16,13 @@
 
 from starlette.config import Config
 from starlette.datastructures import Secret
-import os
+
 
 try:
     config = Config(".env")
 except FileNotFoundError:
     config = Config()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL is not None:
-    DATABASE_URL = Secret(DATABASE_URL)
+DATABASE_URL = config("DATABASE_URL", cast=Secret)
 
-TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
-if DATABASE_URL is not None:
-    DATABASE_URL = Secret(TEST_DATABASE_URL)
+TEST_DATABASE_URL = config("TEST_DATABASE_URL", cast=Secret)

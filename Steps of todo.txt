@@ -1,0 +1,96 @@
+create new project
+poetry new todo-server   --name app
+
+cd todo-server
+code .
+app
+test
+pyproject.toml
+
+>>> poetry add fastapi uvicorn 
+>>>copy virtual path CMD+SHIFT+P selct interpreter past
+
+>>>app---> main.py
+
+from fastapi import FastAPI
+
+todo_server: FastApi = FastApi()
+
+@todo_server.get("/"):
+      def read_root():
+	return "Hello World"
+
+>>>> poetry run uviron app.main:todo_server --reload
+loacalhost:8000
+
+==================
+Get
+Post
+Patch
+Delete
+relational DB (Postgresql)(opensource+widely used)
+DB service provider (Neon) free package postgres growing
+---------------
+neon.tech
+create User and create database with name and select connection string
+
+main.py
+
+DATABASE_URL= in .env
+
+settings.py
+from starlette.config import Config
+from starlette.datastructure import secret
+
+try:
+	config = Config(""env)
+execute: FilenotFound
+
+DATABASE_URL=config(DATABASE_URL, cast = secret)
+===================
+main.py
+
+from app import settings
+#new endpoint
+
+@todo_server.get("/db"):
+	def db_var():
+		return{"DB": settings.DATABASE_URL, "Connection": connection_string}
+
+connection to the database
+database table
+concept of ORM all code in python we use SQLModel
+SQLModel----->ORM(SqlAlchemy)
+
+======================
+poetry add sqlmodel
+poetry add "psycopg[binary]"
+
+Database table schema
+
+from SQLModel import SQLModel, Field
+Step:1
+class Todo(SQLModel, table=True):
+	title:str = 
+	description:optional
+	id: int| None = Field(default = none, primary_key=True)
+
+#connection to the database
+connection_string:str = str(settings.DATABASE_URL).replace(
+postgresql,"postgresql+psycopg")
+engine=create_engine(conn_str)
+
+SQLModle.metadata.create_all
+
+def creat_db_tables():
+
+
+asynch def lifespan(app FastAPI):
+	
+
+
+
+
+
+
+

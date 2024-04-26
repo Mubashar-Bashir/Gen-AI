@@ -1,0 +1,14 @@
+Prerequisit:
+-Docker
+-Vscode
+Remote Exploreer:
+Open folder in container (CTRL+SHIFT+P)
+	- From Dockerfile --> OK
+	- Predefiner Configuration Definattion
+.devcontainer file created
+
+Gift: Linux> Python:3.12>Poetry> Codebase Live +++
+
++ new termina - vs code
+poetry install
+poetry run uvicorn todoapp.main:app --reload

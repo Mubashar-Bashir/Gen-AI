@@ -1,35 +1,36 @@
 # fastapi_neon/main.py
-from contextlib import asynccontextmanager # contextlib asynccontextmanager used for compatibility with asyncio 
-from typing import Union, Optional, Annotated
-# Import necessary modules
-from sqlalchemy import MetaData
-from fastapi import HTTPException
+from contextlib import asynccontextmanager
+from http.client import HTTPException
+from typing import  Optional, Annotated
 from todoapp import settings
-from sqlalchemy import create_engine
-from sqlmodel import Field, Session, SQLModel,  select
-from fastapi import FastAPI,Depends
+from sqlmodel import Field, Session, SQLModel, create_engine, select
+from fastapi import FastAPI, Depends
 
 
 # Define metadata object
-metadata = MetaData()
+#metadata = MetaData()
 # step 1 
 # Todo instance inherited from Sqlmodel interface having (id,context,description)  fields database tables columns
 class Todo(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True, unique=True)
-    context: str = Field(index=True)
-   # description: str = field(string=True)
+    context: str = Field(index=True, nullable=False)  # Ensure context is not nullable
+
+  #  description: Optional[str] = Field(default="description")
 
 # only needed for psycopg 3 - replace postgresql
 # with postgresql+psycopg in settings.DATABASE_URL
-connection_string = str(settings.DATABASE_URL).replace(
-    "postgresql", "postgresql+psycopg"
-)
-connect_args = {"sslmode": "require"}  # Assuming correct sslmode value
+# Check if DATABASE_URL is not None
+if settings.DATABASE_URL:
+    # Replace "postgresql" with "postgresql+psycopg" in the URL string
+    connection_string = str(settings.DATABASE_URL).replace("postgresql", "postgresql+psycopg")
     
-#step 3 engine=create_engine
-# recycle connection after 5 minutes to correspond with the compute scale down
-engine = create_engine(connection_string, connect_args=connect_args, pool_recycle=300)
-
+    connect_args={"sslmode": "require"}
+    # Create engine with the corrected connection string
+    engine = create_engine(connection_string, connect_args=connect_args, pool_recycle=300)
+else:
+    # Handle the case where DATABASE_URL is None
+    # You can log an error message or raise an exception
+    raise ValueError("DATABASE_URL is not set in the settings module")
 # Bind engine to metadata
 #metadata.bind = engine
 
@@ -40,7 +41,7 @@ engine = create_engine(connection_string, connect_args=connect_args, pool_recycl
 def create_db_tables():
     print("DB creation query function called ")
     SQLModel.metadata.create_all(engine)
-
+    print('TAbles created Successfully')
 # the first part of the function , before the yield , 
 # will be execute before the application starts
 #======================================================
@@ -75,7 +76,7 @@ def get_session():
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "World from container"}
 
 @app.post("/todos", response_model=Todo)
 def create_todo(todo:Todo, session: Annotated[Session,Depends(get_session)]):
@@ -85,20 +86,18 @@ def create_todo(todo:Todo, session: Annotated[Session,Depends(get_session)]):
         session.refresh(todo)
         return todo
     
-@app.get("/todos/")
-def read_todos():
+@app.get("/todos")
+def read_all_todos():
     with Session(engine) as session:
         todos = session.exec(select(Todo)).all()
         return todos
     
+@app.get("/todo", response_model=list[Todo])
+def read_todos(session: Session = Depends(get_session)):
+    query = select(Todo)  # Correct the query definition
+    todos = session.exec(query).all()  # Execute the query directly
+    return todos
 
-
-    
-@app.get("/todos/", response_model=list[Todo])
-def read_todos(session: Annotated[Session, Depends(get_session)]):
-        todos = session.exec(select(Todo)).all()
-        return todos
-    
 
 # Update a Todo item
 @app.put("/todos/{todo_id}")

@@ -14,33 +14,85 @@ def test_read_main():  # function to test root main function
     assert response.status_code == 200 #for debuging and testing hold true if 200 else assertionError
     assert actual_response == expected_response
     
-    # def test_write_main():
-    #     connection_string = str(settings.TEST_DATABASE_URL).replace(
-    #         "postgresql", "postgresql+psycopg")
+    # Ensure that the JSON key used for the todo content matches the database column name
+todo_content_key = "context"
 
-    #     engine = create_engine(
-    #         connection_string, connect_args={"sslmode": "require"}, pool_recycle=300)
+def test_write_main():
+    connection_string = str(settings.TEST_DATABASE_URL).replace(
+        "postgresql", "postgresql+psycopg")
 
-    #     SQLModel.metadata.create_all(engine)  
+    engine = create_engine(
+        connection_string, connect_args={"sslmode": "require"}, pool_recycle=300)
 
-    #     with Session(engine) as session:  
+    SQLModel.metadata.create_all(engine)  
 
-    #         def get_session_override():  
-    #             return session  
+    with Session(engine) as session:  
 
-    #         app.dependency_overrides[get_session] = get_session_override 
+        def get_session_override():  
+            return session  
 
-    #         client = TestClient(app=app)
+        app.dependency_overrides[get_session] = get_session_override 
 
-    #         todo_content = "buy bread"
+        client = TestClient(app=app)
 
-    #         response = client.post("/todos/",
-    #             json={"content": todo_content}
-    #     )
+        todo_content = "buy bread34"
 
-    #         data = response.json()
+        # Ensure that the JSON key used for the todo content matches the database column name
+        response = client.post("/todos/",
+            json={todo_content_key: todo_content}
+        )
 
-    #         assert response.status_code == 200
-    #         assert data["content"] == todo_content
+        data = response.json()
 
-            
+        assert response.status_code == 200
+        assert data[todo_content_key] == todo_content
+
+    def test_update_todo():
+        connection_string = str(settings.TEST_DATABASE_URL).replace(
+            "postgresql", "postgresql+psycopg")
+
+        engine = create_engine(
+            connection_string, connect_args={"sslmode": "require"}, pool_recycle=300)
+
+        
+        with Session(engine) as session:  
+
+            def get_session_override():  
+                return session  
+
+            app.dependency_overrides[get_session] = get_session_override 
+        client = TestClient(app)
+    # First, create a todo item
+    response = client.post("/todos/", json={"content": "test todo"})
+    assert response.status_code == 200
+    todo_id = response.json()["id"]
+    # Update the todo item
+    updated_content = "updated todo"
+    response = client.put(f"/todos/{todo_id}", json={"context": updated_content})
+    assert response.status_code == 200
+    # Add assertions to check the updated todo item
+
+    def test_delete_todo():
+        connection_string = str(settings.TEST_DATABASE_URL).replace(
+            "postgresql", "postgresql+psycopg")
+
+        engine = create_engine(
+            connection_string, connect_args={"sslmode": "require"}, pool_recycle=300)
+
+        
+        with Session(engine) as session:  
+
+            def get_session_override():  
+                return session  
+
+            app.dependency_overrides[get_session] = get_session_override 
+        
+        client = TestClient(app)
+    # First, create a todo item
+    response = client.post("/todos/", json={"context": "test todo"})
+    assert response.status_code == 200
+    todo_id = response.json()["id"]
+    # Delete the todo item
+    response = client.delete(f"/todos/{todo_id}")
+    assert response.status_code == 200
+    # Add assertions to check the deletion

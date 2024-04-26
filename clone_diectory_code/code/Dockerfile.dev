@@ -1,0 +1,9 @@
+Dockerfile 	#filename
+FROM python:3.12   #baseImage
+LABEL maintainer = "MOBI"
+RUN pip install poetry # install poetry
+WORKDIR /code  		# working dir
+COPY .   /code/		#codebas
+Run poetry install
+CMD ["uvicorn", "run", "app.main:app",  "--host=0.0.0.0",  "-- reload"]
+
