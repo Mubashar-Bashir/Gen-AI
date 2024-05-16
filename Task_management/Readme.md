@@ -87,6 +87,7 @@ The microservices will communicate via Kafka, ensuring robust and scalable messa
 
 #### Architecture Diagram
 
+![Plant](image.png)
 ```plantuml
 @startuml
 skinparam style strictuml
