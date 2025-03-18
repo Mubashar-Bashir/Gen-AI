@@ -1,7 +1,6 @@
-Sure, I'll provide the entire project documentation in Markdown format. Here it is:
 
 markdown
-Copy code
+
 # SPEC-1: Web-Based Task Management Application
 
 ## Background
@@ -86,7 +85,7 @@ The application will be built using a microservices architecture to ensure scala
 The microservices will communicate via Kafka, ensuring robust and scalable messaging between components.
 
 #### Architecture Diagram
-
+* Link [PlantUML](https://plantuml.com/en-dark/sequence-diagram)
 ![Plant](image.png)
 ```plantuml
 @startuml
@@ -114,7 +113,8 @@ User --> [Reporting UI]
 [Notification Service] --> [Kafka Broker]
 [Reporting Service] --> [Kafka Broker]
 @enduml
-Task Phases and Statuses
+
+##### Task Phases and Statuses
 Task Initiate (TI)
 
 Status: Initiated/Not Initiated
@@ -133,7 +133,8 @@ Status: Locked/Not Locked
 Task Queried (TQ)
 
 Status: Queried/Not Queried
-Database Schemas
+
+###### Database Schemas
 User Profile
 
 id: UUID

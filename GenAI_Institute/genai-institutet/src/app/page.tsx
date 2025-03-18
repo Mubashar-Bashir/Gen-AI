@@ -17,7 +17,7 @@ const Home = () => {
         <Slider />
              <div className="grid text-center">
                 <p className="text-white">
-                  "Exploring the Boundaries of AI: Empowering Learning with GenAI"
+                  "Exploring the Boundaries of AI: Empowering Learning with GenAI--Agentic-AI"
                 </p>
               </div>
       </div>

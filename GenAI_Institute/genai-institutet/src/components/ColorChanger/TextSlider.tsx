@@ -16,11 +16,11 @@ const TextSlider = () => {
   return (
     <>
     <div className="text-slider text-8xl font-bold">
-      <span className="char text-8xl" style={{ color: colors[(currentIndex + 0) % colors.length] }}>G</span>
-      <span className="char text-8xl" style={{ color: colors[(currentIndex + 1) % colors.length] }}>e</span>
-      <span className="char text-8xl" style={{ color: colors[(currentIndex + 2) % colors.length] }}>n</span>
-      <span className="char text-8xl" style={{ color: colors[(currentIndex + 3) % colors.length] }}>A</span>
-      <span className="char text-8xl" style={{ color: colors[(currentIndex + 4) % colors.length] }}>I</span>
+      <span className="char text-8xl" style={{ color: colors[(currentIndex + 0) % colors.length] }}>A</span>
+      <span className="char text-8xl" style={{ color: colors[(currentIndex + 1) % colors.length] }}>I</span>
+      <span className="char text-8xl" style={{ color: colors[(currentIndex + 2) % colors.length] }}>H</span>
+      <span className="char text-8xl" style={{ color: colors[(currentIndex + 3) % colors.length] }}>U</span>
+      <span className="char text-8xl" style={{ color: colors[(currentIndex + 4) % colors.length] }}>B</span>
     </div>
 
     {/* <div className="text-slider">

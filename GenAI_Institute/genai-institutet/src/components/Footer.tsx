@@ -92,7 +92,7 @@ const Footer = () => {
       <div className="grid grid-col-1 gap-2 items-center ">
             {Contacts_LINKS.map((link,index) => (
               <Link href={link.href} key={index} >
-                <p className="hover:font-bold hover:text-blue-600 hover:underline transition duration 300"
+                <p className="hover:font-bold hover:text-blue-400  transition duration 400"
                  >{link.name}</p>
               </Link>
             ))} 
@@ -101,10 +101,10 @@ const Footer = () => {
       </div>
 </div>
 
-<div className="footer flex justify-between items-center p-10 border">
+<div className="footer flex justify-between items-center p-1 border">
   <p>Copyright © 2024 <br />GenAI-Institute</p>
-  <p>Designed By <b>Mobi DEV <br />GenAI-Institute</b></p>
-  <p>Code By: <b>Mubashar & Faizan <br />on GitHub</b></p>
+  <p>Designed By <b>Mobi DEV Agentic-AI-Institute</b></p>
+  <p>Code By: <b>Mubashar & Faizan on GitHub</b></p>
 </div></>
     
   )
